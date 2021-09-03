@@ -23,6 +23,10 @@ interface FormData {
   password: string;
 }
 
+interface LoginDataProps extends FormData {
+  id: string;
+}
+
 const schema = Yup.object().shape({
   service_name: Yup.string().required('Nome do serviço é obrigatório!'),
   email: Yup.string().email('Não é um email válido').required('Email é obrigatório!'),
@@ -48,8 +52,12 @@ export function RegisterLoginData() {
     }
 
     const dataKey = '@savepass:logins';
-
-    // Save data on AsyncStorage and navigate to 'Home' screen
+    let jsonData = await AsyncStorage.getItem(dataKey);
+    let itens = (jsonData ? JSON.parse(jsonData) : []) as LoginDataProps[];
+    itens.push(newLoginData);
+    jsonData = JSON.stringify(itens);
+    await AsyncStorage.setItem(dataKey, jsonData);
+    navigate("Home");
   }
 
   return (
