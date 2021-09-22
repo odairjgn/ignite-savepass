@@ -33,6 +33,7 @@ export function Home() {
     const loadedJson = await AsyncStorage.getItem(dataKey);
     const loadedData = (loadedJson ? JSON.parse(loadedJson) : []) as LoginListDataProps;
     setData(loadedData);
+    setSearchListData(loadedData);
   }
 
   function handleFilterLoginData() {
